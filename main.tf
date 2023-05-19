@@ -80,9 +80,8 @@ resource "aws_security_group" "instance" {
      # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
     cidr_blocks = ["0.0.0.0/0"]
-    
+
   }
-}
 
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
