@@ -77,11 +77,16 @@ resource "aws_security_group" "instance" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    # This IP address range 0.0.0.0/0 includes all. 
+     # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
     cidr_blocks = ["0.0.0.0/0"]
+    
   }
 }
+
+# This code creates a new resource called aws_security_group
+# and specifies that this group allows incoming TCP requests
+# on port 8080 from the CIDR block.
 
 resource "aws_instance" "example" {
   ami                    = "ami-0889a44b331db0194"
@@ -101,11 +106,13 @@ resource "aws_instance" "example" {
   }
 }
 
+# Line 93 is used to create an index.html file and with 
+# Hello, World in it. 
+
+# Line 94 is using nohup command which is used to run the script 
+# even after you log off. It continues to run until it is finished. 
 
 
 
 
-# This code creates a new resource called aws_security_group
-# and specifies that this group allows incoming TCP requests
-# on port 8080 from the CIDR block.
 
