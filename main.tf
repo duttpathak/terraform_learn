@@ -90,14 +90,17 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "example" {
   ami                    = "ami-0889a44b331db0194"
   instance_type          = "t2.micro"
+  # List of security group IDs to associate with. 
   vpc_security_group_ids = [aws_security_group.instance.id]
-
+  # User data to provide when launching the instance. 
+  # Updates to this filed will trigger a start/stop of 
+  # EC2 instance by default. 
   user_data = <<-EOF
               #!/bin/bash
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p 8080 &
               EOF
-
+  #
   user_data_replace_on_change = true
 
   tags = {
@@ -105,10 +108,10 @@ resource "aws_instance" "example" {
   }
 }
 
-# Line 93 is used to create an index.html file and with 
+# Line 97 is used to create an index.html file and with 
 # Hello, World in it. 
 
-# Line 94 is using nohup command which is used to run the script 
+# Line 98 is using nohup command which is used to run the script 
 # even after you log off. It continues to run until it is finished. 
 
 
