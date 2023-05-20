@@ -92,7 +92,7 @@ resource "aws_instance" "example" {
   # List of security group IDs to associate with. 
   vpc_security_group_ids = [aws_security_group.instance.id]
   # User data to provide when launching the instance. 
-  # Updates to this filed will trigger a start/stop of 
+  # Updates to this field will trigger a start/stop of 
   # EC2 instance by default. 
   user_data = <<-EOF
               #!/bin/bash
