@@ -94,16 +94,16 @@ resource "aws_instance" "example" {
   # User data to provide when launching the instance. 
   # Updates to this field will trigger a start/stop of 
   # EC2 instance by default. 
-# Line 97 is used to create an index.html file and with 
+# Used to create an index.html file and with 
 # Hello, World in it. 
-# Line 98 is using nohup command which is used to run the script 
+# Using nohup command which is used to run the script 
 # even after you log off. It continues to run until it is finished. 
   user_data = <<-EOF
               #!/bin/bash
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p 8080 &
               EOF
-  
+  # used to terminate any previous pushes to aws server. 
   user_data_replace_on_change = true
 
   tags = {
