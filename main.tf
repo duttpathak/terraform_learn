@@ -105,7 +105,7 @@ resource "aws_instance" "example" {
               EOF
   # used to terminate any previous pushes to aws server. 
   user_data_replace_on_change = true
-
+  # creates a name for aws server
   tags = {
     Name = "terraform-example"
   }
