@@ -82,7 +82,6 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["0.0.0.0/0"]
    }
   }
-
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
 # on port 8080 from the CIDR block.
@@ -100,7 +99,7 @@ resource "aws_instance" "example" {
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p 8080 &
               EOF
-  #
+  
   user_data_replace_on_change = true
 
   tags = {
