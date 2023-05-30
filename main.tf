@@ -50,11 +50,13 @@ resource "aws_instance" "example" {
         # nohup busybox httpd -f -p 8080 &
         # fixes latest bugs and updates 
         # do to: match this instance on ec2
-        sudo dnf update -y
+        set -ex
+
+        dnf update -y
         # install the http server 
-        sudo dnf install -y httpd
+        dnf install -y httpd
         # starts the http server
-        sudo systemctl start httpd
+        systemctl start httpd
         EOF
 
   user_data_replace_on_change = true
@@ -94,7 +96,6 @@ ingress {
   }
 }
 
-}
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
 # on port 8080 from the CIDR block.
