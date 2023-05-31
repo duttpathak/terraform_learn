@@ -46,10 +46,6 @@ resource "aws_instance" "example" {
   # 
   user_data              = <<-EOF
         #!/bin/bash
-        # echo "Hello, World" > index.html
-        # nohup busybox httpd -f -p 8080 &
-        # fixes latest bugs and updates 
-        # do to: match this instance on ec2
         set -ex
 
         dnf update -y
