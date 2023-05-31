@@ -2,12 +2,12 @@
 # # The first step is to create the 
 # # ALB itself using the aws_lb resource:
 
-# resource "aws_lb" "example" {
-#   name               = "terraform-asg-example"
-#   load_balancer_type = "application"
-#   subnets            = data.aws_subnets.default.ids
-#   security_groups    = [aws_security_group.alb.id]
-# }
+resource "aws_lb" "example" {
+  name               = "terraform-asg-example"
+  load_balancer_type = "application"
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.alb.id]
+}
 
 # # The next step is to define a listener for 
 # # this ALB using the aws_lb_listener resource:
@@ -17,10 +17,10 @@
 # # a simple 404 page as the default response 
 # # for requests that don’t match any listener rules.
 
-# resource "aws_lb_listener" "http" {
-#   load_balancer_arn = aws_lb.example.arn
-#   port              = 80
-#   protocol          = "HTTP"
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.example.arn
+  port              = 80
+  protocol          = "HTTP"
 
 #   # By default, return a simple 404 page
 #   default_action {
