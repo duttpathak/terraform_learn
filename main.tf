@@ -72,8 +72,8 @@ resource "aws_security_group" "instance" {
   ingress {
     # port 80 on the instance. 
     # Everyone uses port 80
-    from_port = 80
-    to_port   = 80
+    from_port = var.server_port
+    to_port   = var.server_port
     protocol  = "tcp"
     # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
