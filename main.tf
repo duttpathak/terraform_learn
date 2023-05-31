@@ -70,6 +70,8 @@ resource "aws_instance" "example" {
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
   ingress {
+    # port 80 on the instance. 
+    # Everyone uses port 80
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
@@ -77,7 +79,8 @@ resource "aws_security_group" "instance" {
     # This allows incoming requests on port 8080 from any IP.
     cidr_blocks = ["0.0.0.0/0"]
   }
-ingress {
+  # ingress is for incoming requests.
+  ingress {
     from_port = 22
     to_port   = 22
     protocol  = "tcp"
@@ -85,10 +88,13 @@ ingress {
     # This allows incoming requests on port 8080 from any IP.
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # egress is for outgoing requests.
+  # outgoing means from the instance 
+  # connect to something
   egress {
     # to do: what port for full outbound excess 
-    from_port = 22
-    to_port   = 22
+    from_port = 0
+    to_port   = 65535
     protocol  = "tcp"
     # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
@@ -96,10 +102,11 @@ ingress {
   }
 }
 
+
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
 # on port 8080 from the CIDR block.
-
+# CIDR blocks are a concise way to specify IP address ranges.
 # Step 3: 
 
 # By default, AWS does not allow any incoming or outgoing 
