@@ -1,13 +1,67 @@
 
+
+
+# resource "aws_launch_configuration" "example" {
+#   image_id        = "ami-0fb653ca2d3203ac1"
+#   instance_type   = "t2.micro"
+#   security_groups = [aws_security_group.instance.id]
+
+#   user_data = <<-EOF
+#               #!/bin/bash
+#               set -ex
+
+#               dnf update -y
+#              # install the http server 
+#               dnf install -y httpd
+#              # starts the http server
+#              systemctl start httpd
+#              EOF
+#   # Required when using a launch configuration with an ASG.
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
+
+
+# resource "aws_autoscaling_group" "example" {
+#   launch_configuration = aws_launch_configuration.example.name
+#   vpc_zone_identifier  = data.aws_subnets.default.ids
+
+#   target_group_arns = [aws_lb_target_group.asg.arn]
+#   health_check_type = "ELB"
+
+#   min_size = 1
+#   max_size = 2
+
+#   tag {
+#     key                 = "Name"
+#     value               = "terraform-asg-example"
+#     propagate_at_launch = true
+#   }
+# }
+
+# data "aws_vpc" "default" {
+#   default = true
+# }
+
+
+
+
+
+
+
+
+
+
 # # The first step is to create the 
 # # ALB itself using the aws_lb resource:
 
-resource "aws_lb" "example" {
-  name               = "terraform-asg-example"
-  load_balancer_type = "application"
-  subnets            = data.aws_subnets.default.ids
-  security_groups    = [aws_security_group.alb.id]
-}
+# resource "aws_lb" "example" {
+#   name               = "terraform-asg-example"
+#   load_balancer_type = "application"
+#   subnets            = data.aws_subnets.default.ids
+#   security_groups    = [aws_security_group.alb.id]
+# }
 
 # # The next step is to define a listener for 
 # # this ALB using the aws_lb_listener resource:
@@ -17,11 +71,11 @@ resource "aws_lb" "example" {
 # # a simple 404 page as the default response 
 # # for requests that don’t match any listener rules.
 
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.example.arn
-  port              = 80
-  protocol          = "HTTP"
-}
+# resource "aws_lb_listener" "http" {
+#   load_balancer_arn = aws_lb.example.arn
+#   port              = 80
+#   protocol          = "HTTP"
+#}
 
 #   # By default, return a simple 404 page
 #   default_action {
@@ -109,26 +163,9 @@ resource "aws_lb_listener" "http" {
 # # to determine whether an Instance is healthy and to automatically replace 
 # # Instances if the target group reports them as unhealthy.
 
-# resource "aws_autoscaling_group" "example" {
-#   launch_configuration = aws_launch_configuration.example.name
-#   vpc_zone_identifier  = data.aws_subnets.default.ids
 
-#   target_group_arns = [aws_lb_target_group.asg.arn]
-#   health_check_type = "ELB"
 
-#   min_size = 1
-#   max_size = 2
 
-#   tag {
-#     key                 = "Name"
-#     value               = "terraform-asg-example"
-#     propagate_at_launch = true
-#   }
-# }
-
-# data "aws_vpc" "default" {
-#   default = true
-# }
 
 # resource "aws_lb_listener_rule" "asg" {
 #   listener_arn = aws_lb_listener.http.arn
