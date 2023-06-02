@@ -22,4 +22,5 @@ variable "server_port_out" {
   description = "The port for outgoing HTTP requests"
   type        = number
   default     = 65535
+
 }
