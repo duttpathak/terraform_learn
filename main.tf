@@ -44,7 +44,7 @@ resource "aws_instance" "example" {
   # curl command reaches the http web server 
   # started by the user_data
   # 
-  user_data              = <<-EOF
+  user_data = <<-EOF
         #!/bin/bash
         set -ex
 
