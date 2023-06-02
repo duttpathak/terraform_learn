@@ -44,7 +44,7 @@ resource "aws_instance" "example" {
   # curl command reaches the http web server 
   # started by the user_data
   # 
-  user_data              = <<-EOF
+  user_data = <<-EOF
         #!/bin/bash
         set -ex
 
@@ -77,8 +77,8 @@ resource "aws_security_group" "instance" {
   }
   # ingress is for incoming requests.
   ingress {
-    from_port = 22
-    to_port   = 22
+    from_port = var.server_port_in
+    to_port   = var.server_port_in
     protocol  = "tcp"
     # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
@@ -90,7 +90,7 @@ resource "aws_security_group" "instance" {
   egress {
     # to do: what port for full outbound excess 
     from_port = 0
-    to_port   = 65535
+    to_port   = var.server_port_out
     protocol  = "tcp"
     # This IP address range 0.0.0.0/0 includes all. 
     # This allows incoming requests on port 8080 from any IP.
