@@ -99,6 +99,7 @@ resource "aws_security_group" "instance" {
 }
 
 
+
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
 # on port 8080 from the CIDR block.
