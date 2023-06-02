@@ -62,7 +62,6 @@ resource "aws_instance" "example" {
   }
 }
 
-
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
   ingress {
