@@ -23,19 +23,16 @@ resource "aws_launch_configuration" "example" {
 #   # http web server
 #   # curl command reaches the http web server 
 #   # started by the user_data
- user_data = <<- EOF
-       #!/bin/bash
-       
-       = set -ex
+  user_data       = <<EOF 
+#!/bin/bash
+set -ex
 
-       dnf update -y
-       # install the http server 
-       dnf install -y httpd
-       # starts the http server
-       systemctl start httpd
- EOF 
-
-
+dnf update -y
+# install the http server 
+dnf install -y httpd
+# starts the http server
+systemctl start httpd
+EOF  
   # Required when using a launch configuration with an ASG.
   lifecycle {
     create_before_destroy = true
@@ -104,22 +101,22 @@ resource "aws_lb" "example" {
 # # a simple 404 page as the default response 
 # # for requests that don’t match any listener rules.
 
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.example.arn
-  port              = 80
-  protocol          = "HTTP"
+# resource "aws_lb_listener" "http" {
+#   load_balancer_arn = aws_lb.example.arn
+#   port              = 80
+#   protocol          = "HTTP"
 
-  # By default, return a simple 404 page
-  default_action {
-    type = "fixed-response"
+#   # By default, return a simple 404 page
+#   default_action {
+#     type = "fixed-response"
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "404: page not found"
-      status_code  = 404
-    }
-  }
-}
+#     fixed_response {
+#       content_type = "text/plain"
+#       message_body = "404: page not found"
+#       status_code  = 404
+#     }
+#   }
+# }
 
 # Note that, by default, all AWS resources, 
 # including ALBs, don’t allow any incoming or 
