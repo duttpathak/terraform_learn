@@ -71,12 +71,12 @@ data "aws_subnets" "default" {
 # You’ll need to tell the aws_lb resource to use this 
 # security group via the security_groups argument:
 
-# resource "aws_lb" "example" {
-#   name               = "terraform-asg-example"
-#   load_balancer_type = "application"
-#   subnets            = data.aws_subnets.default.ids
-#   security_groups    = [aws_security_group.alb.id]
-# }
+resource "aws_lb" "example" {
+  name               = "terraform-asg-example"
+  load_balancer_type = "application"
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.alb.id]
+}
 
 # The next step is to define a listener 
 # for this ALB using the aws_lb_listener resource:
@@ -86,22 +86,22 @@ data "aws_subnets" "default" {
 # a simple 404 page as the default response 
 # for requests that don’t match any listener rules.
 
-# resource "aws_lb_listener" "http" {
-#   load_balancer_arn = aws_lb.example.arn
-#   port              = 80
-#   protocol          = "HTTP"
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.example.arn
+  port              = 80
+  protocol          = "HTTP"
 
-#   # By default, return a simple 404 page
-#   default_action {
-#     type = "fixed-response"
+  # By default, return a simple 404 page
+  default_action {
+    type = "fixed-response"
 
-#     fixed_response {
-#       content_type = "text/plain"
-#       message_body = "404: page not found"
-#       status_code  = 404
-#     }
-#   }
-# }
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "404: page not found"
+      status_code  = 404
+    }
+  }
+}
 
 # Note that, by default, all AWS resources, 
 # including ALBs, don’t allow any incoming or 
@@ -140,22 +140,22 @@ resource "aws_security_group" "alb" {
 # Next, you need to create a target group for your 
 # ASG using the aws_lb_target_group resource:
 
-# resource "aws_lb_target_group" "asg" {
-#   name     = "terraform-asg-example"
-#   port     = var.server_port
-#   protocol = "HTTP"
-#   vpc_id   = data.aws_vpc.default.id
+resource "aws_lb_target_group" "asg" {
+  name     = "terraform-asg-example"
+  port     = var.server_port
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.default.id
 
-#   health_check {
-#     path                = "/"
-#     protocol            = "HTTP"
-#     matcher             = "200"
-#     interval            = 15
-#     timeout             = 3
-#     healthy_threshold   = 2
-#     unhealthy_threshold = 2
-#   }
-# }
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    matcher             = "200"
+    interval            = 15
+    timeout             = 3
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
 
 
 # Finally, it’s time to tie all these pieces together 
@@ -165,21 +165,21 @@ resource "aws_security_group" "alb" {
 # The preceding code adds a listener rule that sends requests 
 # that match any path to the target group that contains your ASG.
 
-# resource "aws_lb_listener_rule" "asg" {
-#   listener_arn = aws_lb_listener.http.arn
-#   priority     = 100
+resource "aws_lb_listener_rule" "asg" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 100
 
-#   condition {
-#     path_pattern {
-#       values = ["*"]
-#     }
-#   }
+  condition {
+    path_pattern {
+      values = ["*"]
+    }
+  }
 
-#   action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.asg.arn
-#   }
-# }
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.asg.arn
+  }
+}
 
 
 
