@@ -1,3 +1,14 @@
+Why is terraform state required?
+
+How does terraform know which ec2 instance/any changes/resources to create/add in aws. Terraform state file acts as a data center to store changes/addition to your terraform infrastructure. 
+
+
+
+
+
+
+
+
 Every time you run Terraform, it records information about what infrastructure it created in a Terraform state file. By default, when you run Terraform in the folder /foo/bar, Terraform creates the file 
 /foo/bar/terraform.tfstate.
 
