@@ -4,6 +4,14 @@ How does terraform know which ec2 instance/any changes/resources to create/add i
 
 Pros/cons of using local versus remote state.
 
+Pros
+Manual error: automation of storing the state file after every plan or apply so there is no chance of manual error. From version controls like git, it is easy to forget to pull down the latest changes.
+
+Locking: remote state automatically acquires a lock, therefore if someone else is running apply, the other would have to wait. Without remote state two people can run apply at the same time without a lock.
+
+Secrets: Sensitive data, sush as username and/or passwords without remote state are in plain text. This is a security issue, so remote state supports encryption in transit and the state file is not stored in plain text on disk anywhere. 
+
+Cons
 
 
 
