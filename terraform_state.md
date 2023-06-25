@@ -22,16 +22,20 @@ Cons
 Every time you run Terraform, it records information about what infrastructure it created in a Terraform state file. By default, when you run Terraform in the folder /foo/bar, Terraform creates the file 
 /foo/bar/terraform.tfstate.
 
+This input:
 
-This input: 
+```
 
 resource "aws_instance" "example" {
   ami           = "ami-0fb653ca2d3203ac1"
   instance_type = "t2.micro"
 }
 
+```
 
 Will output this after running terraform apply, in a JSON format that records a mapping from the Terraform resources in your configuration files to the representation of those resources in the real world. 
+
+```
 
 {
   "version": 4,
@@ -62,6 +66,7 @@ Will output this after running terraform apply, in a JSON format that records a 
   ]
 }
 
+```
 
 Using this JSON format, Terraform knows that a resource with type aws_instance and name example corresponds to an EC2 Instance in your AWS account with ID i-0bc4bbe5b84387543
 
