@@ -10,7 +10,7 @@ secrets.
 Pros
 Manual error: automation of storing the state file after every plan or apply so there is no chance of manual error. From version controls like git, it is easy to forget to pull down the latest changes.
 
-Locking: assuming the timeout parameter set, remote state aquires a lock, therefore if someone else is running apply, the other would have to wait. Without remote state two people can run apply at the same time without a lock.
+Locking: assuming the timeout (DynamoDB) parameter set, remote state aquires a lock, therefore if someone else is running apply, the other would have to wait. Without remote state two people can run apply at the same time without a lock.
 
 
 
