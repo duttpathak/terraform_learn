@@ -1,6 +1,8 @@
 Why is terraform state required?
 
-How does terraform know which ec2 instance/any changes/resources to create/add in aws. Terraform state file acts as a data center to store changes/addition to your terraform infrastructure. Terraform state will match the infrastructure you are running currently. 
+How does terraform know which ec2 instance/any changes/resources to create/add in aws. Terraform state file acts as a data center to store changes/addition to your terraform infrastructure. Terraform state will match the infrastructure you are running currently and make adjustments to implent your code. 
+
+Terraform state represents the current state of your infrastructure. 
 
 Pros/cons of using local versus remote state.
 
