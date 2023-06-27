@@ -15,10 +15,7 @@ Locking: assuming the timeout (DynamoDB) parameter set, remote state aquires a l
 
 
 
-What happens when you run terraform state:
-
-
-Every time you run Terraform, it records information about what infrastructure it created in a Terraform state file. By default, when you run Terraform in the folder /foo/bar, Terraform creates the file 
+Whenever there is a change to .tf file and you run Terraform apply, it records information about what infrastructure it created in a Terraform state file. By default, when you run Terraform in the folder /foo/bar, Terraform creates the file 
 /foo/bar/terraform.tfstate.
 
 This input:
