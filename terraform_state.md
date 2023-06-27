@@ -13,12 +13,9 @@ Manual error: automation of storing the state file after every plan or apply so 
 Locking: assuming the timeout parameter set, remote state aquires a lock, therefore if someone else is running apply, the other would have to wait. Without remote state two people can run apply at the same time without a lock.
 
 
-Cons
 
 
-
-
-
+What happens when you run terraform state:
 
 
 Every time you run Terraform, it records information about what infrastructure it created in a Terraform state file. By default, when you run Terraform in the folder /foo/bar, Terraform creates the file 
