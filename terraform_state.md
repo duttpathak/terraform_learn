@@ -68,7 +68,3 @@ Using this JSON format, Terraform knows that a resource with type aws_instance a
 
 
 
-If using terraform in a team on a real product, these are the problems:
-Shared storage for state files.
-Locking state files.
-Isolating state files.
