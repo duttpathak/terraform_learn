@@ -1,4 +1,11 @@
 
+provider "aws" {
+  region = "us-east-1"
+}
+
+
+
+
 # # The first step in creating an ASG is to 
 # # create a launch configuration, which specifies 
 # # how to configure each EC2 Instance in the ASG.
@@ -27,11 +34,11 @@ EOF
   }
 }
 
-# # # Now you can create the ASG itself 
-# # # using the aws_autoscaling_group resource:
-# # # This ASG will run between 1 and 2 EC2 Instances 
-# # # (defaulting to 2 for the initial launch), 
-# # # each tagged with the name terraform-asg-example.
+# # Now you can create the ASG itself 
+# # using the aws_autoscaling_group resource:
+# # This ASG will run between 1 and 2 EC2 Instances 
+# # (defaulting to 2 for the initial launch), 
+# # each tagged with the name terraform-asg-example.
 
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
@@ -51,8 +58,8 @@ data "aws_vpc" "default" {
   default = true
 }
 
-# # # data source, aws_subnets, 
-# # # to look up the subnets within that VPC:
+# # data source, aws_subnets, 
+# # to look up the subnets within that VPC:
 
 data "aws_subnets" "default" {
   filter {
@@ -61,15 +68,15 @@ data "aws_subnets" "default" {
   }
 }
 
-# # # You now have multiple servers, each 
-# # # with its own IP address, but you typically want 
-# # # to give your end users only a single IP to use.
-# # # Create a load balancer.
+# # You now have multiple servers, each 
+# # with its own IP address, but you typically want 
+# # to give your end users only a single IP to use.
+# # Create a load balancer.
 
-# # # The first step is to 
-# # # create the ALB itself using the aws_lb resource:
-# # # You’ll need to tell the aws_lb resource to use this 
-# # # security group via the security_groups argument:
+# # The first step is to 
+# # create the ALB itself using the aws_lb resource:
+# # You’ll need to tell the aws_lb resource to use this 
+# # security group via the security_groups argument:
 
 resource "aws_lb" "example" {
   name               = "terraform-asg-example"
@@ -78,13 +85,13 @@ resource "aws_lb" "example" {
   security_groups    = [aws_security_group.alb.id]
 }
 
-# # # The next step is to define a listener 
-# # # for this ALB using the aws_lb_listener resource:
+# # The next step is to define a listener 
+# # for this ALB using the aws_lb_listener resource:
 
-# # # This listener configures the ALB to listen on the default 
-# # # HTTP port, port 80, use HTTP as the protocol, and send 
-# # # a simple 404 page as the default response 
-# # # for requests that don’t match any listener rules.
+# # This listener configures the ALB to listen on the default 
+# # HTTP port, port 80, use HTTP as the protocol, and send 
+# # a simple 404 page as the default response 
+# # for requests that don’t match any listener rules.
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
@@ -103,13 +110,13 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# # # Note that, by default, all AWS resources, 
-# # # including ALBs, don’t allow any incoming or 
-# # # outgoing traffic, so you need to create a new security 
-# # # group specifically for the ALB. This security group should 
-# # # allow incoming requests on port 80 so that you can access the 
-# # # load balancer over HTTP, and allow outgoing requests on all ports 
-# # # so that the load balancer can perform health checks:
+# # Note that, by default, all AWS resources, 
+# # including ALBs, don’t allow any incoming or 
+# # outgoing traffic, so you need to create a new security 
+# # group specifically for the ALB. This security group should 
+# # allow incoming requests on port 80 so that you can access the 
+# # load balancer over HTTP, and allow outgoing requests on all ports 
+# # so that the load balancer can perform health checks:
 
 resource "aws_security_group" "alb" {
   name = "terraform-example-alb"
@@ -181,22 +188,22 @@ resource "aws_lb_listener_rule" "asg" {
   }
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket = "tf-state-nonprod"
-#     key    = "github.com/duttpathak/terraform_learn/asg"
-#     region = "us-west-2"
-#   }
-# }
-
-data "terraform_remote_state" "network" {
-  backend = "s3"
-  config = {
+terraform {
+  backend "s3" {
     bucket = "tf-state-nonprod"
     key    = "github.com/duttpathak/terraform_learn/asg"
     region = "us-west-2"
   }
 }
+
+# data "terraform_remote_state" "network" {
+#   backend = "s3"
+#   config = {
+#     bucket = "tf-state-nonprod"
+#     key    = "github.com/duttpathak/terraform_learn/asg"
+#     region = "us-west-2"
+#   }
+# }
 
 
 

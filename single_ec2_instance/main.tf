@@ -63,40 +63,40 @@ resource "aws_instance" "example" {
   }
 }
 
-# resource "aws_security_group" "instance" {
-#   name = "terraform-example-instance"
-#   ingress {
-#     # port 80 on the instance. 
-#     # Everyone uses port 80
-#     from_port = var.server_port
-#     to_port   = var.server_port
-#     protocol  = "tcp"
-#     # This IP address range 0.0.0.0/0 includes all. 
-#     # This allows incoming requests on port 8080 from any IP.
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-#   # ingress is for incoming requests.
-#   ingress {
-#     from_port = var.server_port_in
-#     to_port   = var.server_port_in
-#     protocol  = "tcp"
-#     # This IP address range 0.0.0.0/0 includes all. 
-#     # This allows incoming requests on port 8080 from any IP.
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-#   # egress is for outgoing requests.
-#   # outgoing means from the instance 
-#   # connect to something
-#   egress {
-#     # to do: what port for full outbound excess 
-#     from_port = 0
-#     to_port   = var.server_port_out
-#     protocol  = "tcp"
-#     # This IP address range 0.0.0.0/0 includes all. 
-#     # This allows incoming requests on port 8080 from any IP.
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
+resource "aws_security_group" "instance" {
+  name = "terraform-example-instance"
+  ingress {
+    # port 80 on the instance. 
+    # Everyone uses port 80
+    from_port = var.server_port
+    to_port   = var.server_port
+    protocol  = "tcp"
+    # This IP address range 0.0.0.0/0 includes all. 
+    # This allows incoming requests on port 8080 from any IP.
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  # ingress is for incoming requests.
+  ingress {
+    from_port = var.server_port_in
+    to_port   = var.server_port_in
+    protocol  = "tcp"
+    # This IP address range 0.0.0.0/0 includes all. 
+    # This allows incoming requests on port 8080 from any IP.
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  # egress is for outgoing requests.
+  # outgoing means from the instance 
+  # connect to something
+  egress {
+    # to do: what port for full outbound excess 
+    from_port = 0
+    to_port   = var.server_port_out
+    protocol  = "tcp"
+    # This IP address range 0.0.0.0/0 includes all. 
+    # This allows incoming requests on port 8080 from any IP.
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 # This code creates a new resource called aws_security_group
 # and specifies that this group allows incoming TCP requests
 # on port 8080 from the CIDR block.
@@ -128,7 +128,7 @@ resource "aws_instance" "example" {
 terraform {
   backend "s3" {
     bucket = "tf-state-nonprod"
-    key    = "github.com/duttpathak/terraform_learn/main"
+    key    = "github.com/duttpathak/terraform_learn/single_ec2_instance"
     region = "us-west-2"
   }
 }
@@ -137,3 +137,5 @@ output "public_ip" {
   value       = "curl http://${aws_instance.example.public_ip}"
   description = "The public IP address of the web server"
 }
+
+# github.com/duttpathak/terraform_learn/main
