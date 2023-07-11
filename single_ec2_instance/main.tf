@@ -1,3 +1,10 @@
+# resource "aws_key_pair" "terraform" {
+#   key_name   = "terraform"
+#   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBGrHCC95QsUPZozICYflAVpTHe0gcBUDklM3CYmYqUvwHXNSRoZEQWv+HMMNHAekDg3UKG27l+mYCqHiOOHMCmNjPBa6JvwBHTlBI0MHnZao2IZbRph72+3BQ3tIErXQeHhcgjbqQYMsrJRNqof4kUzNztQc6eKWyrMPWtgN7KmhU4efA03tsEwM2cl89YKHxAh5BkKIgbwPXwWyRCSl8N/cBgDNXA3rtHw/gAzunBW2GpB4CQekng9ddShOzn5vgs4ODoDOvyHSl1boj2cMu3/R95c8VgsralyobQ6s4NN7WhjtJmfumbz5kAfD4zAu3UFm5JJBRhjv7hLXIkrq7LKGpgoGkPEGKV01pK61sSYEngesZ3knjQXWanmJqbLdHhH+pzZG2zmGeI5BzOsHuSPdA9+pPXO/glZg5zK8aiSAWjmNGcPS1h1Tfbz4zk8fSGYL7HB0vTVOt4GPkwv9MEUr/hZUsJ+uk1G4t6lrglgrqCY3UvT0JXh0etlPWrtREtYXNYLOoYM44IcJKWGeLSjyIpe0IVyNldvdfWiJe5fnabmCIJhOaep2xClMuCqhkpBIVpzLFcEEqupGoJSH0G5i8xlQ/V9C5mL4xuF3IN1ah+gHNqb4PXGxXpSCxfE3jmgBG0GcBymQPONnjPjOiMwRvx6qCbowhQ+LdyxVfmQ== tarpanpathak720@gmail.com"
+# }
+
+
+
 # Tells Terraform to use AWS as provider and deploy 
 # into us-east-2 (Ohio) region.
 
@@ -22,6 +29,7 @@ provider "aws" {
 # #!/bin/bash
 # # echo "Hello, World" > index.html
 # # nohup busybox httpd -f -p 8080 &
+# https instead of busybox
 
 # # Step 2: 
 
@@ -44,7 +52,7 @@ resource "aws_instance" "example" {
   # http web server
   # curl command reaches the http web server 
   # started by the user_data
-
+  
   user_data = <<-EOF
         #!/bin/bash
         set -ex
@@ -113,17 +121,7 @@ resource "aws_security_group" "instance" {
 # <provider>_<Type>.<Name>.<Attribute>
 
 
-
-
-
-# resource "aws_key_pair" "terraform" {
-#   key_name   = "terraform"
-#   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBGrHCC95QsUPZozICYflAVpTHe0gcBUDklM3CYmYqUvwHXNSRoZEQWv+HMMNHAekDg3UKG27l+mYCqHiOOHMCmNjPBa6JvwBHTlBI0MHnZao2IZbRph72+3BQ3tIErXQeHhcgjbqQYMsrJRNqof4kUzNztQc6eKWyrMPWtgN7KmhU4efA03tsEwM2cl89YKHxAh5BkKIgbwPXwWyRCSl8N/cBgDNXA3rtHw/gAzunBW2GpB4CQekng9ddShOzn5vgs4ODoDOvyHSl1boj2cMu3/R95c8VgsralyobQ6s4NN7WhjtJmfumbz5kAfD4zAu3UFm5JJBRhjv7hLXIkrq7LKGpgoGkPEGKV01pK61sSYEngesZ3knjQXWanmJqbLdHhH+pzZG2zmGeI5BzOsHuSPdA9+pPXO/glZg5zK8aiSAWjmNGcPS1h1Tfbz4zk8fSGYL7HB0vTVOt4GPkwv9MEUr/hZUsJ+uk1G4t6lrglgrqCY3UvT0JXh0etlPWrtREtYXNYLOoYM44IcJKWGeLSjyIpe0IVyNldvdfWiJe5fnabmCIJhOaep2xClMuCqhkpBIVpzLFcEEqupGoJSH0G5i8xlQ/V9C5mL4xuF3IN1ah+gHNqb4PXGxXpSCxfE3jmgBG0GcBymQPONnjPjOiMwRvx6qCbowhQ+LdyxVfmQ== tarpanpathak720@gmail.com"
-# }
-
-# https instead of busybox
-
-# the region where the bucket resides.
+# remote state terraform buckets 
 
 terraform {
   backend "s3" {
@@ -133,16 +131,13 @@ terraform {
   }
 }
 
+# outputs
+
+
 output "public_ip" {
   value       = "curl http://${aws_instance.example.public_ip}"
   description = "The public IP address of the web server"
 }
-
-# github.com/duttpathak/terraform_learn/main
-
-
-
-
 
 
 # variable "server_port" {
@@ -150,20 +145,17 @@ output "public_ip" {
 #   type        = number
 # }
 
-
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
   default     = 80
 }
 
-
 variable "server_port_in" {
   description = "The port for incoming HTTP requests"
   type        = number
   default     = 22
 }
-
 
 variable "server_port_out" {
   description = "The port for outgoing HTTP requests"
