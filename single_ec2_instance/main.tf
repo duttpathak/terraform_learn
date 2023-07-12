@@ -60,7 +60,7 @@ resource "aws_instance" "example" {
         systemctl start httpd
         EOF
 
-  # user_data_replace_on_change = true
+  user_data_replace_on_change = true
 
   tags = {
     Name = "terraform-example"
