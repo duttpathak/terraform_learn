@@ -188,7 +188,7 @@ resource "aws_lb_listener_rule" "asg" {
 terraform {
   backend "s3" {
     bucket = "tf-state-nonprod"
-    key    = "github.com/duttpathak/terraform_learn/asg"
+    key    = "github.com/duttpathak/terraform_learn/multiple_ec2_instance"
     region = "us-west-2"
   }
 }
