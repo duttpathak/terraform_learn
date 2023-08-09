@@ -69,3 +69,17 @@ Using this JSON format, Terraform knows that a resource with type aws_instance a
 
 
 Always run plan before apply
+
+
+terraform modules
+
+context 
+
+where are you executing terraform from
+
+context and module are in same location. 
+
+./ = current directory
+
+producer = server (module)
+consumer = cilent (source)

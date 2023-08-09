@@ -1,19 +1,12 @@
-terraform {
-  backend "s3" {
-    bucket = "tf-state-nonprod"
-    key    = "github.com/duttpathak/terraform_learn/multiple_ec2_instance"
-    region = "us-west-2"
-  }
-}
-
 provider "aws" {
   region = "us-east-1"
 }
 
 resource "aws_key_pair" "terraform" {
-  key_name   = "multiple_ec2_instance"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDBGrHCC95QsUPZozICYflAVpTHe0gcBUDklM3CYmYqUvwHXNSRoZEQWv+HMMNHAekDg3UKG27l+mYCqHiOOHMCmNjPBa6JvwBHTlBI0MHnZao2IZbRph72+3BQ3tIErXQeHhcgjbqQYMsrJRNqof4kUzNztQc6eKWyrMPWtgN7KmhU4efA03tsEwM2cl89YKHxAh5BkKIgbwPXwWyRCSl8N/cBgDNXA3rtHw/gAzunBW2GpB4CQekng9ddShOzn5vgs4ODoDOvyHSl1boj2cMu3/R95c8VgsralyobQ6s4NN7WhjtJmfumbz5kAfD4zAu3UFm5JJBRhjv7hLXIkrq7LKGpgoGkPEGKV01pK61sSYEngesZ3knjQXWanmJqbLdHhH+pzZG2zmGeI5BzOsHuSPdA9+pPXO/glZg5zK8aiSAWjmNGcPS1h1Tfbz4zk8fSGYL7HB0vTVOt4GPkwv9MEUr/hZUsJ+uk1G4t6lrglgrqCY3UvT0JXh0etlPWrtREtYXNYLOoYM44IcJKWGeLSjyIpe0IVyNldvdfWiJe5fnabmCIJhOaep2xClMuCqhkpBIVpzLFcEEqupGoJSH0G5i8xlQ/V9C5mL4xuF3IN1ah+gHNqb4PXGxXpSCxfE3jmgBG0GcBymQPONnjPjOiMwRvx6qCbowhQ+LdyxVfmQ== tarpanpathak720@gmail.com"
+  key_name   = var.key_name
+  public_key = var.public_key
 }
+
 
 # The first step in creating an ASG is to 
 # create a launch configuration, which specifies 
@@ -21,22 +14,12 @@ resource "aws_key_pair" "terraform" {
 # ami is now image_id, and vpc_security_group_ids 
 # is now security_groups), so replace aws_instance 
 # with aws_launch_configuration as follows:
-
 resource "aws_launch_configuration" "example" {
-  image_id        = "ami-0889a44b331db0194"
-  instance_type   = "t2.micro"
-  security_groups = [aws_security_group.asg.id]
+  image_id        = var.image_id
+  instance_type   = var.instance_type
   key_name        = aws_key_pair.terraform.key_name
-  user_data       = <<EOF
-#!/bin/bash
-# set -ex
-
-dnf update -y
-# install the http server 
-dnf install -y httpd
-# starts the http server
-systemctl start httpd
-EOF
+  user_data       = var.user_data
+  security_groups = [aws_security_group.asg.id]
   # Required when using a launch configuration with an ASG.
   lifecycle {
     create_before_destroy = true
@@ -53,19 +36,20 @@ EOF
 # instructs the ASG to use the target group’s health check 
 # to determine whether an Instance is healthy and to automatically replace 
 # Instances if the target group reports them as unhealthy.
-
-
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
   target_group_arns    = [aws_lb_target_group.asg.arn]
-  health_check_type    = "ELB"
-  min_size = 1
-  max_size = 1
-  tag {
-    key                 = "Name"
-    value               = "terraform-asg-example"
-    propagate_at_launch = true
+  health_check_type    = var.health_check_type
+  min_size             = var.min_size
+  max_size             = var.max_size
+  dynamic "tag" {
+    for_each = var.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 }
 
@@ -92,10 +76,9 @@ data "aws_subnets" "default" {
 # create the ALB itself using the aws_lb resource:
 # You’ll need to tell the aws_lb resource to use this 
 # security group via the security_groups argument:
-
 resource "aws_lb" "example" {
-  name               = "terraform-asg-example"
-  load_balancer_type = "application"
+  name               = var.lb_name
+  load_balancer_type = var.load_balancer_type
   subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.alb.id]
 }
@@ -108,14 +91,14 @@ resource "aws_lb" "example" {
 # a simple 404 page as the default response 
 # for requests that don’t match any listener rules.
 
+# resource "type" "name"
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
-  port              = 80
-  protocol          = "HTTP"
-
+  port              = var.http_port
+  protocol          = var.alb_protocol
   # By default, return a simple 404 page
-  default_action {
-    type = "fixed-response"
+  default_action {          # variable
+    type = "fixed-response" # nested map variable
 
     fixed_response {
       content_type = "text/plain"
@@ -132,19 +115,17 @@ resource "aws_lb_listener" "http" {
 # allow incoming requests on port 80 so that you can access the 
 # load balancer over HTTP, and allow outgoing requests on all ports 
 # so that the load balancer can perform health checks:
-
-
 resource "aws_security_group" "asg" {
   name = "terraform-example-asg"
   ingress {
-    from_port   = var.server_port_in
-    to_port     = var.server_port_in
+    from_port   = var.http_port
+    to_port     = var.http_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = var.server_port
-    to_port     = var.server_port
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -164,8 +145,8 @@ resource "aws_security_group" "alb" {
   name = "terraform-example-alb"
   # Allow inbound HTTP requests
   ingress {
-    from_port   = var.server_port
-    to_port     = var.server_port
+    from_port   = var.http_port
+    to_port     = var.http_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -180,21 +161,20 @@ resource "aws_security_group" "alb" {
 
 # Next, you need to create a target group for your 
 # ASG using the aws_lb_target_group resource:
-
 resource "aws_lb_target_group" "asg" {
-  name     = "terraform-asg-example"
-  port     = var.server_port
-  protocol = "HTTP"
+  name     = var.lb_target_group_name
+  port     = var.http_port
+  protocol = var.alb_protocol
   vpc_id   = data.aws_vpc.default.id
 
   health_check {
-    path                = "/"
-    protocol            = "HTTP"
-    matcher             = "200"
-    interval            = 15
-    timeout             = 3
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
+    path                = var.health_check_path # "/"
+    protocol            = var.health_check_protocol
+    matcher             = var.health_check_matcher
+    interval            = var.health_check_interval
+    timeout             = var.health_check_timeout
+    healthy_threshold   = var.health_check_healthy_threshold
+    unhealthy_threshold = var.health_check_unhealthy_threshold
   }
 }
 
@@ -205,47 +185,33 @@ resource "aws_lb_target_group" "asg" {
 
 # The preceding code adds a listener rule that sends requests 
 # that match any path to the target group that contains your ASG.
-
 resource "aws_lb_listener_rule" "asg" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 100
+  priority     = var.alb_listener_rule_priority
 
-  condition {
-    path_pattern {
-      values = ["*"]
-    }
-  }
+  # action argument that is set to a type in a variable and has a path.
 
   action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.asg.arn
+    type             = var.lb_listener_rule_action_type
+    target_group_arn = aws_lb_target_group.asg.arn #resource reference
+  }
+
+  # condition { # variable
+  #   path_pattern {
+  #     values = ["*"]
+  #   }
+  # }
+
+  dynamic "condition" {
+    # for each condition in the routing condition 
+    # variable look at the value if the field is 
+    # path-pattern then set to condition value 
+    for_each = [for condition in var.routing_condition : condition.values if condition.field == "path-pattern"]
+    content {
+      path_pattern {
+        values = condition.value
+      }
+    }
   }
 }
 
-
-
-
-# replace the old public_ip output of the single EC2 Instance you had 
-# before with an output that shows the DNS name of the ALB:
-output "alb_dns_name" {
-  value       = "curl http://${aws_lb.example.dns_name}"
-  description = "The domain name of the load balancer"
-}
-
-variable "server_port" {
-  description = "The port the server will use for HTTP requests"
-  type        = number
-  default     = 80
-}
-
-variable "server_port_in" {
-  description = "The port for incoming HTTP requests"
-  type        = number
-  default     = 22
-}
-
-variable "server_port_out" {
-  description = "The port for outgoing HTTP requests"
-  type        = number
-  default     = 65535
-}
