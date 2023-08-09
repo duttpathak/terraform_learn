@@ -14,7 +14,6 @@ resource "aws_key_pair" "terraform" {
 # ami is now image_id, and vpc_security_group_ids 
 # is now security_groups), so replace aws_instance 
 # with aws_launch_configuration as follows:
-
 resource "aws_launch_configuration" "example" {
   image_id        = var.image_id
   instance_type   = var.instance_type
@@ -37,8 +36,6 @@ resource "aws_launch_configuration" "example" {
 # instructs the ASG to use the target group’s health check 
 # to determine whether an Instance is healthy and to automatically replace 
 # Instances if the target group reports them as unhealthy.
-
-
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
@@ -79,7 +76,6 @@ data "aws_subnets" "default" {
 # create the ALB itself using the aws_lb resource:
 # You’ll need to tell the aws_lb resource to use this 
 # security group via the security_groups argument:
-
 resource "aws_lb" "example" {
   name               = var.lb_name
   load_balancer_type = var.load_balancer_type
@@ -96,8 +92,6 @@ resource "aws_lb" "example" {
 # for requests that don’t match any listener rules.
 
 # resource "type" "name"
-
-
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
   port              = var.http_port
@@ -121,8 +115,6 @@ resource "aws_lb_listener" "http" {
 # allow incoming requests on port 80 so that you can access the 
 # load balancer over HTTP, and allow outgoing requests on all ports 
 # so that the load balancer can perform health checks:
-
-
 resource "aws_security_group" "asg" {
   name = "terraform-example-asg"
   ingress {
@@ -169,7 +161,6 @@ resource "aws_security_group" "alb" {
 
 # Next, you need to create a target group for your 
 # ASG using the aws_lb_target_group resource:
-
 resource "aws_lb_target_group" "asg" {
   name     = var.lb_target_group_name
   port     = var.http_port
@@ -194,7 +185,6 @@ resource "aws_lb_target_group" "asg" {
 
 # The preceding code adds a listener rule that sends requests 
 # that match any path to the target group that contains your ASG.
-
 resource "aws_lb_listener_rule" "asg" {
   listener_arn = aws_lb_listener.http.arn
   priority     = var.alb_listener_rule_priority

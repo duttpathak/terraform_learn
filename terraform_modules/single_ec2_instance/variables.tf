@@ -1,8 +1,3 @@
-# change default value, force the user to pass the ID 
-# run apply
-# add the other resources from single ec2 instance 
-
-
 variable "ami" {
   description = <<-EOF
   (Optional) AMI to use for the 
@@ -14,8 +9,6 @@ variable "ami" {
   type        = string
   default     = null
 }
-
-# var for region add replace line 2 in main.tf.  
 
 variable "instance_type" {
   description = <<-EOF
@@ -35,8 +28,8 @@ variable "user_data" {
   description = <<-EOF
   (Optional) User data to provide when launching the 
   instance. Do not pass gzip-compressed data via this 
-  argument. Updates to this field will trigger a stop/start of the EC2 instance by 
-  default. If the user_data_replace_on_change is set then 
+  argument. Updates to this field will trigger a stop/start of the EC2 instance 
+  by default. If the user_data_replace_on_change is set then 
   updates to this field will trigger a destroy and recreate.
   EOF
   type        = string
@@ -67,8 +60,6 @@ variable "tags" {
   default     = {}
 }
 
-
-
 variable "vpc_id" {
   type        = string
   description = "VPC ID."
@@ -87,15 +78,11 @@ variable "health_check_type" {
   default     = null
 }
 
-
-
 variable "security_group_name" {
   description = "name of the security group for the ec2 instance"
   type        = string
   default     = null
 }
-
-
 
 variable "region" {
   description = "AWS region to deploy instance"
@@ -132,5 +119,3 @@ variable "all_ports" {
   type        = number
   default     = 65535
 }
-
-

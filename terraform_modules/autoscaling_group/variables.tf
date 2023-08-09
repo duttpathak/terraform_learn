@@ -10,8 +10,6 @@ variable "image_id" {
   default     = null
 }
 
-# var for region add replace line 2 in main.tf.  
-
 variable "instance_type" {
   description = <<-EOF
   (Optional) Instance type to use for the instance. 
@@ -62,7 +60,6 @@ variable "tags" {
   default     = {}
 }
 
-
 variable "security_group_name" {
   description = "name of the security group for the ec2 instance"
   type        = string
@@ -105,27 +102,17 @@ variable "public_key" {
   default     = null
 }
 
-
 variable "lb_listener_rule_action_type" {
   description = "value"
   type        = string
   default     = "forward"
 }
 
-
-
-
-
-
 variable "load_balancer_type" {
   description = "Type of load balancer"
   type        = string
   default     = "application"
 }
-
-
-
-
 
 variable "http_port" {
   description = "The port the server will use for HTTP requests"
@@ -157,30 +144,6 @@ variable "min_size" {
   default     = 1
 }
 
-
-
-# variable "default_action" {
-#   type        = any
-#   description = "(Required) Configuration block for default actions."
-#   default = {
-#     fixed_response = {
-#       content_type = "plain/text"
-#       message_body = "Nothing to see here!"
-#       status_code  = 404
-#     }
-#   }
-# }
-
-
-
-
-# variable "lb_target_group_health_check" {
-#   description = "A Health Check block."
-#   type        = any
-#   default     = {}
-# }
-
-
 variable "routing_condition" {
   # description = <<-EOF 
   # This variable defines the paths
@@ -207,14 +170,11 @@ variable "routing_condition" {
   ]
 }
 
-
 variable "listener_rules" {
   type        = map(any)
   default     = {}
   description = "A map of listener rules for the LB: priority --> {target_group_arn:'', conditions:[]}. 'target_group_arn:null' means the built-in target group"
 }
-
-
 
 variable "health_check_protocol" {
   description = "The protocol to use to talk to the servers. Must be one of: HTTP, HTTPS."
@@ -222,13 +182,11 @@ variable "health_check_protocol" {
   default     = "HTTP"
 }
 
-
 variable "health_check_interval" {
   description = "The approximate amount of time, in seconds, between health checks of each server. Minimum value 5 seconds, Maximum value 300 seconds."
   type        = number
   default     = 15
 }
-
 
 variable "health_check_matcher" {
   description = "The HTTP codes to use when checking for a successful response from a server. You can specify multiple comma-separated values (for example, \"200,202\") or a range of values (for example, \"200-299\")."
@@ -258,29 +216,6 @@ variable "health_check_path" {
   description = "The path to use for health check requests."
   type        = string
 }
-
-
-
-# variable "list" {
-#   type = list(any)
-#   default = [1, 2, 3, true, "true"]
-# }
-
-# variable "map" {
-#   type = map(any)
-#   default = {
-#     field   = "true"
-#     values  = "90"
-#     percent = 90
-#   }
-# }
-
-# wrap up main.tf & come up with a type ojbect and explain
-
-
-
-
-
 
 variable "max_size" {
   description = "The maximum size of the autoscaling group"
