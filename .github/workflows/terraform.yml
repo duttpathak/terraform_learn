@@ -8,7 +8,7 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - DEV-18
+      - all
 
 jobs:
   tf_fmt:
