@@ -17,9 +17,9 @@ on:
           - plan
           - apply
           - destroy
-    push:
-      branches:
-        - all
+    # push:
+    #   branches:
+    #     - all
 
 jobs:
   tf_fmt:
