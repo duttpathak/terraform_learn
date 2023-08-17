@@ -18,11 +18,16 @@ on:
           - Init
           - Validate
           - plan
-          # - apply
-          # - destroy
-    # push:
-    #   branches:
-    #     - all
+          - apply
+          - destroy
+    push:
+      branches:
+        - all
+    pull_request:
+      branches:
+        - main
+      paths:
+        - staging/**
 
 jobs:
   tf_fmt:
