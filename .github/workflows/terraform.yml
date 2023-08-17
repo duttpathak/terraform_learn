@@ -14,9 +14,12 @@ on:
         default: "plan"
         type: choice
         options:
+          - fmt
+          - Init
+          - Validate
           - plan
-          - apply
-          - destroy
+          # - apply
+          # - destroy
     # push:
     #   branches:
     #     - all
