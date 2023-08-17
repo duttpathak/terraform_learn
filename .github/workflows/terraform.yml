@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  bnd-build-cluster:
+  terraform:
     runs-on: ubuntu-latest
 
     steps:
