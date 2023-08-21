@@ -13,6 +13,7 @@ jobs:
       - name: Terraform Init
         id: Init
         run: terraform init
+        working-directory: ./ec2_instance
 
       - name: Terraform fmt
         id: fmt
