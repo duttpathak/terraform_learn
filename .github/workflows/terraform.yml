@@ -1,4 +1,4 @@
-name: "Terraform"
+name: "terraform_learn"
 
 on: [push]
 
