@@ -22,9 +22,9 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: Plan
-        run: terraform plan -no-color
+      # - name: Terraform Plan
+      #   id: Plan
+      #   run: terraform plan -no-color
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
@@ -49,7 +49,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
+            ${process.env.terraform_learn}
             \`\`\`
 
             </details>
