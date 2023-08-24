@@ -69,3 +69,16 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+          working-directory: ./ec2_instance
+
+      # - name: Terraform Apply
+      #   id: apply
+      #   env:
+      #     TF_VAR_ec2_name: "$"
+      #   run: |
+      #     cd tf-example/
+      #     terraform init
+      #     terraform validate
+      #     terraform plan
+      #     terraform apply -auto-approve
