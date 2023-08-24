@@ -28,11 +28,6 @@ jobs:
         run: terraform validate -no-color
         working-directory: ./ec2_instance
 
-      # - name: Terraform Plan
-      #   id: Plan
-      #   run: terraform plan -no-color
-      #   working-directory: ./ec2_instance
-
       - name: Terraform Plan
         continue-on-error: true
         run: terraform plan -no-color
