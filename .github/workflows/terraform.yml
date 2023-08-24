@@ -21,14 +21,17 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
+        working-directory: ./ec2_instance
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+        working-directory: ./ec2_instance
 
       - name: Terraform Plan
         id: Plan
         run: terraform plan -no-color
+        working-directory: ./ec2_instance
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
