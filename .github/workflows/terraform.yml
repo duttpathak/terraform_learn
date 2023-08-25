@@ -1,6 +1,6 @@
 name: "Terraform"
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   terraform:
@@ -88,3 +88,4 @@ jobs:
       #     terraform validate
       #     terraform plan
       #     terraform apply -auto-approve
+# Plan should show up in github on the pull request page
