@@ -39,8 +39,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-      - run: echo "stderr  ${{ steps.plan.outputs.stderr }}"
-      - run: echo "stdout ${{ steps.plan.outputs.stout }}"
 
       - name: Create Pull Request
         uses: actions/github-script@v6
@@ -57,6 +55,7 @@ jobs:
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             <details><summary>Validation Output</summary>
 
             \`\`\`\n
@@ -65,15 +64,9 @@ jobs:
 
             </details>
 
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-
-            <details><summary>Show Plan</summary>
-
             \`\`\`\n
             ${process.env.ec2_instance}
             \`\`\`
-
-            </details>
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
