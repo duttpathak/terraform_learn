@@ -1,6 +1,6 @@
 name: "Terraform"
-
-on: [push, pull_request]
+# push is running the action.
+on: [push]
 
 jobs:
   terraform:
@@ -41,16 +41,22 @@ jobs:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
 
       - name: Create Pull Request
+        # explain in english.
         uses: actions/github-script@v6
+        # explain in english. how does it know if it is a pull request
         if: github.event_name == 'pull_request'
+        # explain in english lines 49-53.
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
           working-directory: ./ec2_instance
-
+        # explain the with directive.
         with:
+          # github token gives github actions permission to submit data to a pull request.
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          # what does the vertical line mean.
+          # which values are static and which are variables.
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
