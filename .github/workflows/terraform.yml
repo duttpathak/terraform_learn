@@ -39,6 +39,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      - run: echo "stderr  ${{ steps.plan.outputs.stderr }}"
+      - run: echo "stdout ${{ steps.plan.outputs.stout }}"
 
       - name: Create Pull Request
         uses: actions/github-script@v6
