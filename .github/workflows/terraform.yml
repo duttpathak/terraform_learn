@@ -34,11 +34,11 @@ jobs:
       - name: Terraform Plan
         continue-on-error: true
         run: terraform plan -no-color
-        working-directory: ./ec2_instance
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          working-directory: ./ec2_instance
 
       - name: Create Pull Request
         # explain in english.
