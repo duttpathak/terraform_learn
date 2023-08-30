@@ -37,34 +37,31 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          # PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
           working-directory: ./ec2_instance
 
-      - name: Create Pull Request
         # explain in english.
+      - name: terraform plan
         uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
         if: github.event_name == 'pull_request'
         # In order to give git permission to run the aws configuration. The AWS KEY and AWS secrete keys are
         # required. The way to define these are through the environment variables.
         env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-          TF_cloud_organization: "ec2_instance"
-          working-directory: ./ec2_instance
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
 
           # which values are static and which are variables.
           # The vertical line means to run multiple lines in one.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
             <details><summary>Validation Output</summary>
 
             \`\`\`\n
@@ -85,6 +82,12 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+
+          # TF_cloud_organization: "ec2_instance"
+          # working-directory: ./ec2_instance
+          # github-token: ${{ secrets.GITHUB_TOKEN }}
+          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       # - name: Terraform Apply
       #   id: apply
