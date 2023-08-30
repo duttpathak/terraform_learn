@@ -65,9 +65,6 @@ jobs:
 
             <details><summary>Show Plan</summary>
 
-             \`\`\`terraform\n
-            ${{ steps.plan.outputs.plan }}
-            \n\`\`\`
 
             </details>
 
