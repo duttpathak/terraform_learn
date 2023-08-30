@@ -63,9 +63,7 @@ jobs:
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plans.outcome }}\`
 
-            <details><summary>Show Plan</summary>\`\`\`terraform\n
-            ${{ steps.plan.outputs.plan }}
-            \n\`\`\</details>
+            <details><summary>Show Plan</summary>\`\`\`${process.env.ec2_instance}\`\`\</details>
 
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
