@@ -53,37 +53,37 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
           working-directory: ./ec2_instance
-      #   # explain the with directive.
-      #   with:
-      #     # github token gives github actions permission to submit data to a pull request.
+        # explain the with directive.
+        with:
+          # github token gives github actions permission to submit data to a pull request.
 
-      #     # which values are static and which are variables.
-      #     # The vertical line means to run multiple lines in one.
-      #     script: |
-      #       const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-      #       #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
-      #       #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
-      #       #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-      #       <details><summary>Validation Output</summary>
+          # which values are static and which are variables.
+          # The vertical line means to run multiple lines in one.
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            <details><summary>Validation Output</summary>
 
-      #       \`\`\`\n
-      #       ${{ steps.validate.outputs.stdout }}
-      #       \`\`\`
+            \`\`\`\n
+            ${{ steps.validate.outputs.stdout }}
+            \`\`\`
 
-      #       </details>
+            </details>
 
-      #       \`\`\`\n
-      #       ${process.env.ec2_instance}
-      #       \`\`\`
+            \`\`\`\n
+            ${process.env.ec2_instance}
+            \`\`\`
 
-      #       *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: output
-      #       })
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
 
       # - name: Terraform Apply
       #   id: apply
@@ -95,4 +95,5 @@ jobs:
       #     terraform validate
       #     terraform plan
       #     terraform apply -auto-approve
+
 # Plan should show up in github on the pull request page
