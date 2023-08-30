@@ -75,7 +75,9 @@ jobs:
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`\ ${process.env.ec2_instance}\`\`\`
+             \`\`\`terraform\n
+            ${{ steps.plan.outputs.plan }}
+            \n\`\`\`
 
             </details>
 
