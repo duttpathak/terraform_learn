@@ -64,13 +64,10 @@ jobs:
 
             <details><summary>Validation Output</summary>
 
-            \`\`\`\${process.env.PLAN}\`\`\`
+            \`\`\`\ ${process.env.ec2_instance}\`\`\`
 
             </details>
 
-            \`\`\`\n
-            ${process.env.ec2_instance}
-            \`\`\`
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
