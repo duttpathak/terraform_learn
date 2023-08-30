@@ -64,7 +64,7 @@ jobs:
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`\ ${process.env.ec2_instance}\`\`\`
+            \`\`\`\ ${process.env.PLAN}\`\`\`
 
             </details>
 
