@@ -31,17 +31,27 @@ jobs:
         run: terraform validate -no-color
         working-directory: ./ec2_instance
 
+      # - name: Terraform Plan
+      #   id: plan
+      #   continue-on-error: true
+      #   run: terraform plan -no-color
+      # env:
+      #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #   # PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      #   working-directory: ./ec2_instance
+
       - name: Terraform Plan
         id: plan
-        continue-on-error: true
-        run: terraform plan -no-color
-        # env:
-        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        #   # PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        #   working-directory: ./ec2_instance
+        if: github.event_name == 'pull_request'
+        run: |
+          out="$(terraform plan -no-color)"
 
-        # explain in english.
+        # code below makes set-output keeps the multiline
+        # refer to this https://github.community/t/set-output-truncates-multiline-strings/16852/3
+        continue-on-error: true
+
+      # explain in english.
       - name: add-plan-comment
         uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
