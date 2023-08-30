@@ -1,6 +1,6 @@
 name: "Terraform"
 # push is running the action.
-on: [push]
+on: [push, pull_request]
 
 jobs:
   terraform:
@@ -41,7 +41,7 @@ jobs:
           working-directory: ./ec2_instance
 
         # explain in english.
-      - name: terraform plan
+      - name: add-plan-comment
         uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
         if: github.event_name == 'pull_request'
@@ -64,9 +64,7 @@ jobs:
 
             <details><summary>Validation Output</summary>
 
-            \`\`\`\n
-            ${{ steps.validate.outputs.stdout }}
-            \`\`\`
+            \`\`\`\${process.env.PLAN}\`\`\`
 
             </details>
 
