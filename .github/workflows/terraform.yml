@@ -55,7 +55,7 @@ jobs:
       - name: add-plan-comment
         uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
-        if: github.event_name == 'pull_request'
+        # if: github.event_name == 'pull_request'
         # In order to give git permission to run the aws configuration. The AWS KEY and AWS secrete keys are
         # required. The way to define these are through the environment variables.
         env:
