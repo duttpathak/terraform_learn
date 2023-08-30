@@ -62,7 +62,7 @@ jobs:
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
-            <details><summary>Validation Output</summary>
+            <details><summary>Show Plan</summary>
 
             \`\`\`\ ${process.env.ec2_instance}\`\`\`
 
