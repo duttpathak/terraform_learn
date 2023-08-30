@@ -33,12 +33,12 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        continue-on-error: true
+        # continue-on-error: true
         run: terraform plan -no-color
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        # PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         working-directory: ./ec2_instance
 
       # explain in english.
