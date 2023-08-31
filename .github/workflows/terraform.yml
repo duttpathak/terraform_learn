@@ -65,7 +65,7 @@ jobs:
             <details><summary>Show Plan</summary>\`\`\`${process.env.ec2_instance}\`\`\</details>
 
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ process.env.ec2_instance }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ process.env./ec2_instance }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
