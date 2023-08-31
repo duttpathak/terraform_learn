@@ -1,6 +1,6 @@
 name: "Terraform"
 # push is running the action.
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   terraform:
