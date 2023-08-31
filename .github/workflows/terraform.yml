@@ -33,7 +33,6 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        # continue-on-error: true
         run: terraform plan -no-color
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
