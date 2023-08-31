@@ -9,6 +9,10 @@ jobs:
       contents: read
       pull-requests: write
 
+    defaults:
+      run:
+        working-directory: ec2_instance
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,7 +20,7 @@ jobs:
       - name: Terraform Init
         id: Init
         run: terraform init
-        working-directory: ./ec2_instance
+        # working-directory: ./ec2_instance
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -24,12 +28,12 @@ jobs:
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
-        working-directory: ./ec2_instance
+        # working-directory: ./ec2_instance
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-        working-directory: ./ec2_instance
+        # working-directory: ./ec2_instance
 
       - name: Terraform Plan
         id: plan
@@ -38,7 +42,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-        working-directory: ./ec2_instance
+        # working-directory: ./ec2_instance
 
       # explain in english.
       - name: add-plan-comment
@@ -65,7 +69,7 @@ jobs:
             <details><summary>Show Plan</summary>\`\`\`${process.env.ec2_instance}\`\`\</details>
 
 
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_ec2_instance }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
