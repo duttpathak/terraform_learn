@@ -45,9 +45,7 @@ jobs:
         # working-directory: ./ec2_instance
 
       # explain in english.
-      - name: add-plan-comment
-        id: comment
-        uses: actions/github-script@v6
+      - uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
         if: github.event_name == 'pull_request'
         # In order to give git permission to run the aws configuration. The AWS KEY and AWS secrete keys are
@@ -85,6 +83,11 @@ jobs:
               body: output
             })
 
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run:
+          exit 1
+
           # TF_cloud_organization: "ec2_instance"
           # working-directory: ./ec2_instance
           # github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -101,5 +104,4 @@ jobs:
       #     terraform validate
       #     terraform plan
       #     terraform apply -auto-approve
-
 # Plan should show up in github on the pull request page
