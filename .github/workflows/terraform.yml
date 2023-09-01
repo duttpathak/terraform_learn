@@ -55,7 +55,7 @@ jobs:
           # problem
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PLAN: "./ec2_instance\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "ec2_instance\n${{ steps.plan.outputs.stdout }}"
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
