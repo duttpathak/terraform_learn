@@ -52,7 +52,8 @@ jobs:
         # In order to give git permission to run the aws configuration. The AWS KEY and AWS secrete keys are
         # required. The way to define these are through the environment variables.
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          # problem
+          PLAN: "./ec2_instance\n${{ steps.plan.outputs.stdout }}"
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
