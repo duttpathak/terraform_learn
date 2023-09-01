@@ -52,7 +52,7 @@ jobs:
         # required. The way to define these are through the environment variables.
         env:
           # problem
-          PLAN: "ec2_instance\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "terraform\n${{ ec2_instance.plan.outputs.stdout }}"
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
@@ -83,11 +83,6 @@ jobs:
               body: output
             })
 
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run:
-          exit 1
-
           # TF_cloud_organization: "ec2_instance"
           # working-directory: ./ec2_instance
           # github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -104,4 +99,5 @@ jobs:
       #     terraform validate
       #     terraform plan
       #     terraform apply -auto-approve
+
 # Plan should show up in github on the pull request page
