@@ -46,6 +46,7 @@ jobs:
 
       # explain in english.
       - name: add-plan-comment
+        id: comment
         uses: actions/github-script@v6
         # It is a pull request because at the top besides on I have pull_request mentioned.
         if: github.event_name == 'pull_request'
