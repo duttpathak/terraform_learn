@@ -53,8 +53,6 @@ jobs:
         # required. The way to define these are through the environment variables.
         env:
           # problem
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PLAN: "ec2_instance\n${{ steps.plan.outputs.stdout }}"
         # explain the with directive.
         with:
@@ -79,7 +77,7 @@ jobs:
 
             *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-            github.rest.issues.createComment({
+            github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
