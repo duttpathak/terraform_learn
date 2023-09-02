@@ -1,7 +1,7 @@
 name: "Terraform"
 
 on:
-  pull_request: 
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -49,10 +49,10 @@ jobs:
 
       # explain in english.
       - uses: actions/github-script@v6
-        # It is a pull request because at the top besides on I have pull_request mentioned.
+        # It is a pull request because of the if statement.
         if: github.event_name == 'pull_request'
-        # In order to give git permission to run the aws configuration. The AWS KEY and AWS secrete keys are
-        # required. The way to define these are through the environment variables.
+        # In the environment varialbe plan, the stdout is stored from
+        # the terraform plan step.
         env:
           # problem
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
