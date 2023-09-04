@@ -84,12 +84,16 @@ jobs:
               body: output
             })
 
-      - name: Terraform Apply
-        id: apply
-        run: terraform apply -auto-approve
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Terraform Apply
+      #   id: apply
+      #   run: terraform apply -auto-approve
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      # - name: Terraform destroy
+      #   id: destroy
+      #   run: terraform destroy -auto-approve
 
   # tf-destroy:
   #   runs-on: ubuntu-latest
@@ -131,4 +135,5 @@ jobs:
   #     terraform validate
   #     terraform plan
   #     terraform apply -auto-approve
+
 # Plan should show up in github on the pull request page
