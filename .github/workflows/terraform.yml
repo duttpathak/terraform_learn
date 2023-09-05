@@ -4,8 +4,8 @@ on:
   pull_request:
     # types: [closed]
   workflow_dispatch:
-    branches:
-      - main
+    # branches:
+    #   - main
 jobs:
   terraform:
     # if: github.event.pull_request.merged == true
