@@ -2,8 +2,7 @@ name: "Terraform"
 
 on:
   pull_request:
-    types:
-      - opened
+    types: [closed]
   workflow_dispatch:
     branches:
       - main
