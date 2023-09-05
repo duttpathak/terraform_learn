@@ -3,9 +3,13 @@ name: "Terraform"
 on:
   pull_request:
   workflow_dispatch:
+    branches:
+      - main
+    types: [closed]
 
 jobs:
   terraform:
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
