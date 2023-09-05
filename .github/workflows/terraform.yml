@@ -6,7 +6,6 @@ on:
 
 jobs:
   terraform:
-    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -85,16 +84,18 @@ jobs:
               body: output
             })
 
-      # - name: Terraform Apply
-      #   id: apply
-      #   run: terraform apply -auto-approve
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Apply
+        id: apply
+        if: github.event.pull_request.merged == true
+        run: terraform apply -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Terraform destroy
-      #   id: destroy
-      #   run: terraform destroy -auto-approve
+      - name: Terraform destroy
+        id: destroy
+        if: github.event.pull_request.merged == true
+        run: terraform destroy -auto-approve
 
   # tf-destroy:
   #   runs-on: ubuntu-latest
@@ -136,5 +137,4 @@ jobs:
   #     terraform validate
   #     terraform plan
   #     terraform apply -auto-approve
-
 # Plan should show up in github on the pull request page
