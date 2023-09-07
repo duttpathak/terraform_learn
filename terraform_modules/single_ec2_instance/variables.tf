@@ -96,11 +96,11 @@ variable "key_name" {
   default     = null
 }
 
-variable "public_key" {
-  description = "The name for the key pair."
-  type        = string
-  default     = null
-}
+# variable "public_key" {
+#   description = "The name for the key pair."
+#   type        = string
+#   default     = null
+# }
 
 variable "http_port" {
   description = "The port the server will use for HTTP requests"

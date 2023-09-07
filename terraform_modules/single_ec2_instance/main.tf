@@ -2,15 +2,15 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_key_pair" "terraform" {
-  key_name   = var.key_name
-  public_key = var.public_key
-}
+# resource "aws_key_pair" "terraform" {
+#   key_name   = var.key_name
+#   public_key = var.public_key
+# }
 
 resource "aws_instance" "example" {
   ami                         = var.ami
   instance_type               = var.instance_type
-  key_name                    = aws_key_pair.terraform.key_name
+  key_name                    = var.key_name
   vpc_security_group_ids      = [aws_security_group.instance.id]
   user_data                   = var.user_data
   user_data_replace_on_change = var.user_data_replace_on_change

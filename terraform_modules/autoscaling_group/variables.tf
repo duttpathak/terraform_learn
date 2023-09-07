@@ -96,11 +96,11 @@ variable "tg_health_check" {
   description = "The default target group's health check configuration, will be merged over the default (see locals.tf)"
 }
 
-variable "public_key" {
-  description = "The name for the key pair."
-  type        = string
-  default     = null
-}
+# variable "public_key" {
+#   description = "The name for the key pair."
+#   type        = string
+#   default     = null
+# }
 
 variable "lb_listener_rule_action_type" {
   description = "value"

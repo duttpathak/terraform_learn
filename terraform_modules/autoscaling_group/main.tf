@@ -2,10 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_key_pair" "terraform" {
-  key_name   = var.key_name
-  public_key = var.public_key
-}
+# resource "aws_key_pair" "terraform" {
+#   key_name   = var.key_name
+#   public_key = var.public_key
+# }
 
 
 # The first step in creating an ASG is to 
@@ -17,7 +17,7 @@ resource "aws_key_pair" "terraform" {
 resource "aws_launch_configuration" "example" {
   image_id        = var.image_id
   instance_type   = var.instance_type
-  key_name        = aws_key_pair.terraform.key_name
+  key_name        = var.key_name
   user_data       = var.user_data
   security_groups = [aws_security_group.asg.id]
   # Required when using a launch configuration with an ASG.
