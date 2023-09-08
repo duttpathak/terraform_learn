@@ -96,7 +96,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Show Destroy plan
-        id: terraform plan -destroy
+        # id: terraform plan -destroy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform plan -destroy
         env:
