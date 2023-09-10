@@ -56,8 +56,8 @@ jobs:
         if: github.event_name == 'pull_request'
         # In the environment varialbe plan, the stdout is stored from
         # the terraform plan step.
-        env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        # env:
+        #   PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
