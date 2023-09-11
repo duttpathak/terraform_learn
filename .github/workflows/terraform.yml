@@ -49,15 +49,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           continue-on-error: true
 
-      - name: Terraform Plan
-        # explain in english.
-        uses: actions/github-script@v6
+      # explain in english.
+      - uses: actions/github-script@v6
         # It is a pull request because of the if statement.
         if: github.event_name == 'pull_request'
         # In the environment varialbe plan, the stdout is stored from
         # the terraform plan step.
-        # env:
-        #   PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         # explain the with directive.
         with:
           # github token gives github actions permission to submit data to a pull request.
