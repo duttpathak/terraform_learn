@@ -49,8 +49,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           continue-on-error: true
 
-      # explain in english.
-      - uses: actions/github-script@v6
+      - name: add-plan-comment
+        # explain in english.
+        uses: actions/github-script@v6
         # It is a pull request because of the if statement.
         if: github.event_name == 'pull_request'
         # In the environment varialbe plan, the stdout is stored from
