@@ -49,6 +49,44 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           continue-on-error: true
 
+      - name: Terraform Plan
+        # explain in english.
+        uses: actions/github-script@v6
+        # It is a pull request because of the if statement.
+        if: github.event_name == 'pull_request'
+        # In the environment varialbe plan, the stdout is stored from
+        # the terraform plan step.
+        # env:
+        #   PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        # explain the with directive.
+        with:
+          # github token gives github actions permission to submit data to a pull request.
+          # Values on the left are static and values on right are variables.
+          # The vertical line means to run multiple lines in one.
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
       - name: Terraform Apply
         id: apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
