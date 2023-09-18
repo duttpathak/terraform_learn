@@ -33,7 +33,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Terraform fmt
+      - name: Terraform Fmt
         id: fmt
         run: terraform fmt -check
 
@@ -49,7 +49,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           continue-on-error: true
 
-      - name: add-plan-comment
+      - name: Add Plan To Pull Request
         # explain in english.
         uses: actions/github-script@v6
         # It is a pull request because of the if statement.
@@ -96,7 +96,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Show Destroy plan
+      - name: Show Destroy Plan
         # id: terraform plan -destroy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform plan -destroy
@@ -104,7 +104,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Terraform destroy
+      - name: Terraform Destroy
         id: destroy
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform destroy -auto-approve
